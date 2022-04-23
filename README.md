@@ -2,6 +2,31 @@
 
 Invoicing Application
 
+This is a hobby project, an invoicing application.
+
+## Functionality
+### Invoice
+- [x] List invoices
+- [-] Create invoice
+- [x] Show invoice
+- [-] Modify invoice
+
+### Partner
+- [ ] List partners
+- [ ] CRUD partner
+
+### Product
+- [ ] List products
+- [ ] CRUD products
+
+### Settings
+- [-] Company
+  - [-] Addresses
+  - [-] Bank accounts
+- [ ] Languages
+- [ ] Currencies
+- [ ] Taxes
+
 ## Install the dependencies
 ```bash
 yarn
