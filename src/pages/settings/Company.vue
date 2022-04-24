@@ -74,7 +74,7 @@
       <q-icon name="import_contacts" size="sm" />
       Addresses
     </div>
-    <div class="row q-pa-md items-center">
+    <div class="row q-pa-md q-gutter-sm items-center">
       <q-card
         v-for="address in state.addresses"
         :key="address.id"
@@ -91,7 +91,13 @@
           <div class="text-overline">{{ address.country }}</div>
         </q-card-section>
       </q-card>
-      <q-btn round color="primary" icon="add" size="md" class="addBtn q-ml-lg" />
+      <q-btn
+        round
+        color="primary"
+        icon="add"
+        size="md"
+        class="addBtn q-ml-lg"
+        @click="showAddressModal" />
     </div>
     <div class="text-h6 q-mt-xl">
       <q-icon name="account_balance" size="sm" />
@@ -117,12 +123,16 @@
 
 <script setup>
 import { computed, reactive } from "vue";
+import { v4 as uuid } from "uuid";
 import { getCompanyDetails } from "src/store/company";
 import { getAddressById } from "src/store/address";
 import { getBankAccountById } from "src/store/bank";
 import { getCurrencies, getCurrencyById } from "src/store/currency";
 import { getLanguages, getLangById } from "src/store/language";
+import { useQuasar } from "quasar";
+import AddressDialog from "src/components/AddressDialog.vue";
 
+const $q = useQuasar();
 const company = computed(() => getCompanyDetails());
 const currencies = computed(() => getCurrencies());
 const languages = computed(() => getLanguages());
@@ -145,13 +155,32 @@ const currRules = [(val) => !!val || "Please select a Currency!"];
 const langRules = [(val) => !!val || "Please select a Language!"];
 
 const getAddressIcon = (type) => {
-  console.log("type", type);
   let icon = "home";
   if (type === "invoice") icon = "receipt";
   if (type === "delivery") icon = "local_shipping";
-  console.log("icon", icon);
   return icon;
 };
+
+const showAddressModal = () => {
+  $q.dialog({
+    component: AddressDialog,
+    componentProps: {
+      title: "Add new address"
+    }
+  }).onOk((data) => {
+    console.log("OK", data);
+    const newAddress = {
+      id: uuid(),
+      active: true,
+      street: data.address,
+      zip: data.zip,
+      city: data.city,
+      country: data.country,
+      type: data.type
+    };
+    state.addresses.push(newAddress);
+  })
+}
 </script>
 
 <style lang="scss">
