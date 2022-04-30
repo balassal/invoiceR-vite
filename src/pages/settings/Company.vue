@@ -79,6 +79,7 @@
         v-for="address in state.addresses"
         :key="address.id"
         class="q-pa-sm cursor-pointer"
+        @click="modifyAddressModal(address)"
       >
         <q-card-section>
           <q-icon
@@ -87,7 +88,9 @@
             :title="address.type"
           />
           <div class="text-subtitle1 text-no-wrap">{{ address.street }}</div>
-          <div class="text-subtitle2">{{ address.zip }}, {{ address.city }}</div>
+          <div class="text-subtitle2">
+            {{ address.zip }}, {{ address.city }}
+          </div>
           <div class="text-overline">{{ address.country }}</div>
         </q-card-section>
       </q-card>
@@ -97,7 +100,8 @@
         icon="add"
         size="md"
         class="addBtn q-ml-lg"
-        @click="showAddressModal" />
+        @click="showAddressModal"
+      />
     </div>
     <div class="text-h6 q-mt-xl">
       <q-icon name="account_balance" size="sm" />
@@ -115,7 +119,13 @@
           <div class="text-weight-bold">{{ bankAcc.accountNumber }}</div>
         </q-card-section>
       </q-card>
-      <q-btn round color="primary" icon="add" size="md" class="addBtn q-ml-lg" />
+      <q-btn
+        round
+        color="primary"
+        icon="add"
+        size="md"
+        class="addBtn q-ml-lg"
+      />
     </div>
     <pre class="q-mt-xl">{{ state }}</pre>
   </q-page>
@@ -165,10 +175,10 @@ const showAddressModal = () => {
   $q.dialog({
     component: AddressDialog,
     componentProps: {
-      title: "Add new address"
-    }
+      title: "Add new address",
+      mode: "new",
+    },
   }).onOk((data) => {
-    console.log("OK", data);
     const newAddress = {
       id: uuid(),
       active: true,
@@ -176,11 +186,29 @@ const showAddressModal = () => {
       zip: data.zip,
       city: data.city,
       country: data.country,
-      type: data.type
+      type: data.type,
     };
     state.addresses.push(newAddress);
-  })
-}
+  });
+};
+const modifyAddressModal = (address) => {
+  $q.dialog({
+    component: AddressDialog,
+    componentProps: {
+      title: "Modify address",
+      mode: "edit",
+      address: address,
+    },
+  }).onOk((data) => {
+    const found = state.addresses.find((a) => a.id === data.id);
+    found.active = data.active;
+    found.city = data.city;
+    found.street = data.street;
+    found.country = data.country;
+    found.type = data.type;
+    found.zip = data.zip;
+  });
+};
 </script>
 
 <style lang="scss">

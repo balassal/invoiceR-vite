@@ -1,8 +1,13 @@
 <template>
   <q-dialog ref="dialogRef" persistent @hide="onDialogHide">
     <q-card class="q-dialog-plugin">
-      <q-card-section>
+      <q-card-section class="row items-center justify-between">
         <div class="text-h6">{{ props.title }}</div>
+        <q-toggle
+          v-if="props.mode === 'edit'"
+          v-model="state.active"
+          label="Active"
+        />
       </q-card-section>
 
       <q-separator />
@@ -11,93 +16,138 @@
         <q-input
           ref="addressInput"
           label="Address"
-          v-model="address"
+          v-model="state.address"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'Address is required']"
           lazy-rules="ondemand"
-          clearable />
-       <q-input
+          clearable
+        />
+        <q-input
           ref="zipInput"
           label="ZIP"
-          v-model="zip"
+          v-model="state.zip"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'ZIP is required']"
           lazy-rules="ondemand"
-          clearable />
+          clearable
+        />
         <q-input
           ref="cityInput"
           label="City"
-          v-model="city"
+          v-model="state.city"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'City is required']"
           lazy-rules="ondemand"
-          clearable />
+          clearable
+        />
         <q-input
           ref="countryInput"
           label="Country"
-          v-model="country"
+          v-model="state.country"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'Country is required']"
           lazy-rules="ondemand"
-          clearable />
-        <q-select
-          v-model="type"
-          :options="types"
-          label="Address Type" />
+          clearable
+        />
+        <q-select v-model="state.type" :options="types" label="Address Type" />
       </q-card-section>
 
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="warning" flat icon="close" label="Cancel" @click="onDialogCancel" />
-        <q-btn color="primary" flat icon="add" label="Add" @click="onAdd" />
+        <q-btn icon="close" label="Cancel" @click="onDialogCancel" />
+        <q-btn
+          v-if="props.mode === 'add'"
+          color="primary"
+          icon="add"
+          label="Add"
+          @click="onAdd"
+        />
+        <q-btn
+          v-if="props.mode === 'edit'"
+          color="warning"
+          icon="add"
+          label="edit"
+          @click="onModify"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
-import { useDialogPluginComponent } from 'quasar';
-import { ref } from 'vue';
+import { useDialogPluginComponent } from "quasar";
+import { ref, reactive } from "vue";
 
 const props = defineProps({
   title: {
     type: String,
-    require: true
-  }
+    required: true,
+  },
+  address: {
+    type: Object,
+    required: false,
+  },
+  mode: {
+    type: String,
+    required: true,
+  },
 });
 
 defineEmits([...useDialogPluginComponent.emits]);
 
-const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
+const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
+  useDialogPluginComponent();
 
-const address = ref("");
-const zip = ref("");
-const city = ref("");
-const country = ref("");
-const type = ref("main");
-const types = ["main", "invoice", "delivery"]
+const state = reactive({
+  id: props.address ? props.address.id : "",
+  address: props.address ? props.address.street : "",
+  zip: props.address ? props.address.zip : "",
+  city: props.address ? props.address.city : "",
+  country: props.address ? props.address.country : "",
+  type: props.address ? props.address.type : "main",
+  active: props.address ? props.address.active : false,
+});
+
+const types = ["main", "invoice", "delivery"];
+
 const addressInput = ref(null);
-const zipInput = ref(null)
-const cityInput = ref(null)
-const countryInput = ref(null)
+const zipInput = ref(null);
+const cityInput = ref(null);
+const countryInput = ref(null);
 
 const isValid = () => {
-  return addressInput.value.validate() ||
+  return (
+    addressInput.value.validate() ||
     zipInput.value.validate() ||
     cityInput.value.validate() ||
     countryInput.value.validate()
-}
+  );
+};
 
 const onAdd = () => {
   if (isValid()) {
     onDialogOK({
-      address: address.value,
-      zip: zip.value,
-      city: city.value,
-      country: country.value,
-      type: type.value
+      address: state.address,
+      zip: state.zip,
+      city: state.city,
+      country: state.country,
+      type: state.type,
     });
   }
-}
+};
+
+const onModify = () => {
+  if (isValid()) {
+    onDialogOK({
+      id: state.id,
+      active: state.active,
+      street: state.address,
+      zip: state.zip,
+      city: state.city,
+      country: state.country,
+      type: state.type,
+    });
+  }
+};
 </script>
