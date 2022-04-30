@@ -219,13 +219,19 @@ const modifyAddressModal = (address) => {
       address: address,
     },
   }).onOk((data) => {
-    const found = state.addresses.find((a) => a.id === data.id);
-    found.active = data.active;
-    found.city = data.city;
-    found.street = data.street;
-    found.country = data.country;
-    found.type = data.type;
-    found.zip = data.zip;
+    if (!Object.keys(data).includes("deleteId")) {
+      const found = state.addresses.find((a) => a.id === data.id);
+      found.active = data.active;
+      found.city = data.city;
+      found.street = data.street;
+      found.country = data.country;
+      found.type = data.type;
+      found.zip = data.zip;
+    } else {
+      if (confirm("Are you sure to remove this address?")) {
+        state.addresses = state.addresses.filter((a) => a.id !== data.deleteId);
+      }
+    }
 
     state.changed = true;
   });

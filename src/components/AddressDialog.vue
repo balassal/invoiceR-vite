@@ -74,10 +74,17 @@
           @click="onAdd"
         />
         <q-btn
+          v-if="props.mode === 'edit'"
+          color="red"
+          icon="delete"
+          label="Delete"
+          @click="onDelete"
+        />
+        <q-btn
           v-if="props.mode === 'edit' && state.modified"
           color="orange"
           icon="edit"
-          label="edit"
+          label="Edit"
           @click="onModify"
         />
       </q-card-actions>
@@ -160,5 +167,11 @@ const onModify = () => {
       type: state.type,
     });
   }
+};
+
+const onDelete = () => {
+  onDialogOK({
+    deleteId: state.id,
+  });
 };
 </script>
