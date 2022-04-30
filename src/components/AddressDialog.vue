@@ -6,6 +6,7 @@
         <q-toggle
           v-if="props.mode === 'edit'"
           v-model="state.active"
+          @update:model-value="state.modified = true"
           label="Active"
         />
       </q-card-section>
@@ -17,6 +18,7 @@
           ref="addressInput"
           label="Address"
           v-model="state.address"
+          @update:model-value="state.modified = true"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'Address is required']"
           lazy-rules="ondemand"
@@ -26,6 +28,7 @@
           ref="zipInput"
           label="ZIP"
           v-model="state.zip"
+          @update:model-value="state.modified = true"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'ZIP is required']"
           lazy-rules="ondemand"
@@ -35,6 +38,7 @@
           ref="cityInput"
           label="City"
           v-model="state.city"
+          @update:model-value="state.modified = true"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'City is required']"
           lazy-rules="ondemand"
@@ -44,12 +48,18 @@
           ref="countryInput"
           label="Country"
           v-model="state.country"
+          @update:model-value="state.modified = true"
           autocomplete="hidden"
           :rules="[(val) => !!val || 'Country is required']"
           lazy-rules="ondemand"
           clearable
         />
-        <q-select v-model="state.type" :options="types" label="Address Type" />
+        <q-select
+          v-model="state.type"
+          :options="types"
+          label="Address Type"
+          @update:model-value="state.modified = true"
+        />
       </q-card-section>
 
       <q-separator />
@@ -64,9 +74,9 @@
           @click="onAdd"
         />
         <q-btn
-          v-if="props.mode === 'edit'"
-          color="warning"
-          icon="add"
+          v-if="props.mode === 'edit' && state.modified"
+          color="orange"
+          icon="edit"
           label="edit"
           @click="onModify"
         />
@@ -100,6 +110,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
   useDialogPluginComponent();
 
 const state = reactive({
+  modified: false,
   id: props.address ? props.address.id : "",
   address: props.address ? props.address.street : "",
   zip: props.address ? props.address.zip : "",

@@ -1,5 +1,12 @@
 <template>
   <q-page padding>
+    <q-btn
+      v-if="state.changed"
+      class="q-mb-sm"
+      label="Save changes"
+      color="orange"
+      outline
+    />
     <div class="text-h6">
       <q-icon name="business" size="sm" />
       Company Details
@@ -15,6 +22,7 @@
           class="q-pb-none"
           :rules="nameRules"
           v-model="state.name"
+          @update:model-value="state.changed = true"
         />
       </div>
     </div>
@@ -23,7 +31,13 @@
         <strong> Short Name </strong>
       </div>
       <div class="col-9">
-        <q-input clearable dense class="q-pb-none" v-model="state.shortName" />
+        <q-input
+          clearable
+          dense
+          class="q-pb-none"
+          v-model="state.shortName"
+          @update:model-value="state.changed = true"
+        />
       </div>
     </div>
     <div class="row items-center q-pa-sm">
@@ -37,6 +51,7 @@
           class="q-pb-none"
           :rules="vatRules"
           v-model="state.vat"
+          @update:model-value="state.changed = true"
         />
       </div>
     </div>
@@ -52,6 +67,7 @@
           :options="currencies"
           v-model="state.currency"
           :rules="currRules"
+          @update:model-value="state.changed = true"
         />
       </div>
     </div>
@@ -67,6 +83,7 @@
           :options="languages"
           v-model="state.language"
           :rules="langRules"
+          @update:model-value="state.changed = true"
         />
       </div>
     </div>
@@ -111,7 +128,7 @@
       <q-card
         v-for="bankAcc in state.bankAccounts"
         :key="bankAcc.id"
-        class="q-pa-sm"
+        class="q-pa-sm cursor-pointer"
       >
         <q-card-section>
           <div class="text-subtitle2">{{ bankAcc.bank }}</div>
@@ -148,6 +165,7 @@ const currencies = computed(() => getCurrencies());
 const languages = computed(() => getLanguages());
 
 const state = reactive({
+  changed: false,
   name: company.value.name,
   shortName: company.value.shortName,
   vat: company.value.vatnumber,
@@ -176,7 +194,7 @@ const showAddressModal = () => {
     component: AddressDialog,
     componentProps: {
       title: "Add new address",
-      mode: "new",
+      mode: "add",
     },
   }).onOk((data) => {
     const newAddress = {
@@ -189,6 +207,7 @@ const showAddressModal = () => {
       type: data.type,
     };
     state.addresses.push(newAddress);
+    state.changed = true;
   });
 };
 const modifyAddressModal = (address) => {
@@ -207,6 +226,8 @@ const modifyAddressModal = (address) => {
     found.country = data.country;
     found.type = data.type;
     found.zip = data.zip;
+
+    state.changed = true;
   });
 };
 </script>
