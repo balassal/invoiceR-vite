@@ -1,14 +1,28 @@
-import data from "./data.json";
-import { getCurrencyById } from "./currency"
+import axios from "axios";
+import { getCurrencyById } from "./currency";
 
-export function getBankAccounts() {
-  return data.bankAccounts.map(acc => getBankAccountById(acc.id));
+const apiURL = process.env.API_URL;
+
+export async function getBankAccounts() {
+  let accounts = [];
+  await axios.get(`${apiURL}/bankAccounts`).then((res) => {
+    accounts = res.data;
+  });
+
+  const result = await Promise.all(
+    accounts.map(async (acc) => await getBankAccountById(acc.id))
+  );
+  return result;
 }
 
-export function getBankAccountById(id) {
-  const acc = data.bankAccounts.find(item => item.id === id);
+export async function getBankAccountById(id) {
+  let account = {};
+  await axios.get(`${apiURL}/bankAccounts/${id}`).then((res) => {
+    account = res.data;
+  });
+
   return {
-    ...acc,
-    currencyId: getCurrencyById(acc.currencyId)
-  }
+    ...account,
+    currencyId: await getCurrencyById(account.currencyId),
+  };
 }

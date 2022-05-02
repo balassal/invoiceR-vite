@@ -1,9 +1,19 @@
-import data from "./data.json";
+import axios from "axios";
 
-export function getUoms() {
-  return data.uoms;
+const apiURL = process.env.API_URL;
+
+export async function getUoms() {
+  let uoms = [];
+  await axios.get(`${apiURL}/uoms`).then((res) => {
+    uoms = res.data;
+  });
+  return uoms;
 }
 
-export function getUomById(id) {
-  return data.uoms.find(inv => inv.id == id);
+export async function getUomById(id) {
+  let uom = {};
+  await axios.get(`${apiURL}/uoms/${id}`).then((res) => {
+    uom = res.data;
+  });
+  return uom;
 }

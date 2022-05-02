@@ -1,9 +1,19 @@
-import data from "./data.json";
+import axios from "axios";
 
-export function getLanguages() {
-  return data.languages;
+const apiURL = process.env.API_URL;
+
+export async function getLanguages() {
+  let languages = [];
+  await axios.get(`${apiURL}/languages`).then((res) => {
+    languages = res.data;
+  });
+  return languages;
 }
 
-export function getLangById(id) {
-  return data.languages.find(lang => lang.id == id);
+export async function getLangById(id) {
+  let language = {};
+  await axios.get(`${apiURL}/languages/${id}`).then((res) => {
+    language = res.data;
+  });
+  return language;
 }

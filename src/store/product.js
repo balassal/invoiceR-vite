@@ -1,17 +1,36 @@
-import data from "./data.json";
 import { getTaxById } from "./taxes";
 import { getUomById } from "./uom";
 
-export function getProducts() {
-  return data.products.map(p => getProductById(p.id));
+import axios from "axios";
+
+const apiURL = process.env.API_URL;
+
+export async function getProducts() {
+  let products = [];
+  await axios.get(`${apiURL}/products`).then((res) => {
+    products = res.data;
+  });
+
+  const result = await Promise.all(
+    products.map(async (prod) => await getProductById(prod.id))
+  );
+  return result;
 }
 
-export function getProductById(id) {
-  const current = data.products.find(inv => inv.id == id);
+export async function getProductById(id) {
+  let product = {};
+  await axios.get(`${apiURL}/products/${id}`).then((res) => {
+    product = res.data;
+  });
+
   return {
-    ...current,
-    saletaxes: current.saletaxes.map(t => getTaxById(t)),
-    purchasetaxes: current.purchasetaxes.map(t => getTaxById(t)),
-    uomId: getUomById(current.uomId)
-  }
+    ...product,
+    saletaxes: await Promise.all(
+      product.saletaxes.map(async (t) => await getTaxById(t))
+    ),
+    purchasetaxes: await Promise.all(
+      product.purchasetaxes.map(async (t) => await getTaxById(t))
+    ),
+    uomId: await getUomById(product.uomId),
+  };
 }
