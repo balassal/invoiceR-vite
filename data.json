@@ -1,0 +1,284 @@
+{
+  "company": {
+    "name": "My Company Corp.",
+    "shortName": "MyCompany",
+    "addressIds": [
+      "1f923fb9-4170-4dfb-9881-7f6d310d0467"
+    ],
+    "bankAccountIds": [
+      "ba1d62ff-e432-4282-94f4-1dbec43c4734",
+      "d33c76f4-6873-4587-b776-93374e100d46"
+    ],
+    "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
+    "languageId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
+    "vatnumber": "26854625-1-14"
+  },
+  "invoices": [
+    {
+      "id": "49b3059b-b099-4883-bc01-bd39afa177ae",
+      "name": "INV-2022/0001",
+      "number": "INV-2022/0001",
+      "partnerId": "03d7e9f4-a23b-488d-9724-baaaf0e747c1",
+      "invoiceDate": "2022-01-15",
+      "deliveryDate": "2022-01-15",
+      "dueDate": "2022-01-25",
+      "paymentTherm": 10,
+      "paymentMode": "transfer",
+      "invoiceBankId": "02d7c709-6188-457c-b8c8-ed158eba05a3",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
+      "exchangeRate": 1,
+      "invoiceLangId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
+      "netAmount": 1000,
+      "vatAmount": 270,
+      "totalAmount": 1270,
+      "toBePaid": 0,
+      "rounding": 0,
+      "invoiceLines": [
+        "dcf59c48-27d6-429f-90f6-b960cbf33a94"
+      ],
+      "notes": "",
+      "state": "paid",
+      "messages": []
+    }
+  ],
+  "invoicelines": [
+    {
+      "id": "dcf59c48-27d6-429f-90f6-b960cbf33a94",
+      "invoiceId": "49b3059b-b099-4883-bc01-bd39afa177ae",
+      "label": "Asztal",
+      "quantity": 1,
+      "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
+      "unitPrice": 1000,
+      "taxesIds": [
+        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
+      ],
+      "taxAmount": 270,
+      "netAmount": 1000,
+      "total": 1270,
+      "productId": "ab528c70-e3c2-446d-9fda-2a4066ac5e8d"
+    }
+  ],
+  "partners": [
+    {
+      "id": "03d7e9f4-a23b-488d-9724-baaaf0e747c1",
+      "name": "Partner 1",
+      "label": "Partner 1",
+      "active": true,
+      "type": "customer",
+      "vatnumber": "HU12345678",
+      "bankAccountIds": [
+        "02d7c709-6188-457c-b8c8-ed158eba05a3"
+      ],
+      "paymentTherm": 10,
+      "paymentMethod": "transfer",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
+      "languageId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
+      "addressIds": [
+        "dac29e62-73dc-4460-a655-1d90f44438f4"
+      ]
+    },
+    {
+      "id": "006eb6c5-da68-480c-b1b7-2f9654e7a307",
+      "name": "Partner 2",
+      "label": "Partner 2",
+      "active": true,
+      "type": "customer",
+      "vatnumber": "HU12345677",
+      "bankAccountIds": [
+        "e4e0aa43-3f32-4a72-9f36-bae71d003c4a"
+      ],
+      "paymentTherm": 0,
+      "paymentMethod": "cash",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
+      "languageId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
+      "addressIds": [
+        "c4567034-90ea-4b61-9037-14cb9777214a"
+      ]
+    }
+  ],
+  "bankAccounts": [
+    {
+      "id": "ba1d62ff-e432-4282-94f4-1dbec43c4734",
+      "accountNumber": "10965588-87612348-1235598",
+      "bank": "Erste Bank",
+      "label": "Erste Bank",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc"
+    },
+    {
+      "id": "d33c76f4-6873-4587-b776-93374e100d46",
+      "accountNumber": "10965588-69552314-55224689",
+      "bank": "Erste Bank",
+      "label": "Erste Bank - EUR",
+      "currencyId": "7a71c0da-059b-4444-8873-f4726fae789c"
+    },
+    {
+      "id": "e4e0aa43-3f32-4a72-9f36-bae71d003c4a",
+      "accountNumber": "11770000-11223344-66778899",
+      "bank": "K&H Bank",
+      "label": "KH Bank",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc"
+    },
+    {
+      "id": "02d7c709-6188-457c-b8c8-ed158eba05a3",
+      "accountNumber": "11770000-11223344-66778899",
+      "bank": "OTP Bank",
+      "label": "OTP Bank",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc"
+    }
+  ],
+  "addresses": [
+    {
+      "id": "1f923fb9-4170-4dfb-9881-7f6d310d0467",
+      "active": true,
+      "street": "Kossuth Lajos utca 8.",
+      "zip": "1989",
+      "city": "Budapest",
+      "country": "Hungary",
+      "type": "main"
+    },
+    {
+      "id": "dac29e62-73dc-4460-a655-1d90f44438f4",
+      "active": true,
+      "street": "Ady Endre u.",
+      "zip": "1234",
+      "city": "Budapest",
+      "country": "Hungary",
+      "type": "main"
+    },
+    {
+      "id": "c4567034-90ea-4b61-9037-14cb9777214a",
+      "active": true,
+      "street": "József Attila u.",
+      "zip": "1234",
+      "city": "Budapest",
+      "country": "Hungary",
+      "type": "main"
+    }
+  ],
+  "languages": [
+    {
+      "id": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
+      "label": "Hungarian",
+      "name": "hungarian",
+      "shortCode": "hu"
+    },
+    {
+      "id": "a7bade91-8d20-4b73-9357-91cdf6601e3e",
+      "label": "English",
+      "name": "english",
+      "shortCode": "en"
+    },
+    {
+      "id": "6b1e03c1-0ca1-4d91-b880-0ea2a9d1d8d8",
+      "label": "German",
+      "name": "german",
+      "shortCode": "ger"
+    }
+  ],
+  "currencies": [
+    {
+      "id": "8aef1b83-0494-410a-9506-510a1eedfbdc",
+      "label": "HUF",
+      "name": "Forint",
+      "symbol": "Ft",
+      "rates": [
+        {
+          "date": "2022-01-01",
+          "exchange": 1
+        }
+      ]
+    },
+    {
+      "id": "7a71c0da-059b-4444-8873-f4726fae789c",
+      "label": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "rates": [
+        {
+          "date": "2022-01-01",
+          "exchange": 365.11
+        }
+      ]
+    },
+    {
+      "id": "43fc6600-d111-47fd-abb9-27341686a2d3",
+      "label": "USD",
+      "name": "USA Dollar",
+      "symbol": "$",
+      "rates": [
+        {
+          "date": "2022-01-01",
+          "exchange": 315.11
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "ab528c70-e3c2-446d-9fda-2a4066ac5e8d",
+      "name": "Asztal, fekete, 120x100",
+      "label": "Asztal, fekete, 120x100",
+      "active": true,
+      "type": "product",
+      "internalref": "ASZT-153518",
+      "unitprice": 1000,
+      "saletaxes": [
+        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
+      ],
+      "purchasetaxes": [
+        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
+      ],
+      "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
+      "note": ""
+    },
+    {
+      "id": "93c8f154-d02f-4ca6-ba6f-42eb613de40a",
+      "name": "Szék, barna",
+      "label": "Szék, barna",
+      "active": true,
+      "type": "product",
+      "internalref": "SZK-ddfasdf",
+      "unitprice": 650,
+      "saletaxes": [
+        "5e3305af-4214-449c-a7e4-3d8ca2406a93"
+      ],
+      "purchasetaxes": [
+        "5e3305af-4214-449c-a7e4-3d8ca2406a93"
+      ],
+      "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
+      "note": ""
+    }
+  ],
+  "taxes": [
+    {
+      "id": "01e7188b-553a-40b8-9e57-bd6d84ddf873",
+      "name": "27%",
+      "category": "vat",
+      "active": true,
+      "type": "sale",
+      "scope": "item",
+      "computation": "percentage",
+      "amount": 0.27,
+      "label": "27%",
+      "included": false
+    },
+    {
+      "id": "5e3305af-4214-449c-a7e4-3d8ca2406a93",
+      "name": "20%",
+      "category": "vat",
+      "active": true,
+      "type": "sale",
+      "scope": "item",
+      "computation": "percentage",
+      "amount": 0.2,
+      "label": "20%",
+      "included": false
+    }
+  ],
+  "uoms": [
+    {
+      "id": "fc91465d-40c5-455e-9306-c6d150d8df1d",
+      "name": "db"
+    }
+  ]
+}
