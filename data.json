@@ -2,6 +2,7 @@
   "company": {
     "name": "My Company Corp.",
     "shortName": "MyCompany",
+    "vatnumber": "26854625-1-14",
     "addressIds": [
       "1f923fb9-4170-4dfb-9881-7f6d310d0467"
     ],
@@ -10,8 +11,7 @@
       "d33c76f4-6873-4587-b776-93374e100d46"
     ],
     "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
-    "languageId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
-    "vatnumber": "26854625-1-14"
+    "languageId": "92e44249-3eed-4ab0-adf5-0cde86d3de46"
   },
   "invoices": [
     {

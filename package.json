@@ -6,7 +6,8 @@
   "author": "Laszlo Balassa <b.lacika23@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "concurrently \"quasar dev\" \"json-server --watch data.json --port 5000\""
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -18,7 +19,8 @@
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.0.0-alpha.0",
-    "autoprefixer": "^10.4.2"
+    "autoprefixer": "^10.4.2",
+    "concurrently": "^7.1.0"
   },
   "engines": {
     "node": "^18 || ^16 || ^14.19",
