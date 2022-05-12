@@ -1,11 +1,12 @@
 <template>
   <q-page padding>
     <q-btn
-      v-if="state.changed"
+      v-if="changed"
       class="q-mb-sm"
       label="Save changes"
       color="orange"
       outline
+      @click="onSave"
     />
     <div class="text-h6">
       <q-icon name="business" size="sm" />
@@ -21,8 +22,8 @@
           dense
           class="q-pb-none"
           :rules="nameRules"
-          v-model="state.name"
-          @update:model-value="state.changed = true"
+          v-model="company.name"
+          @update:model-value="changed = true"
         />
       </div>
     </div>
@@ -35,8 +36,8 @@
           clearable
           dense
           class="q-pb-none"
-          v-model="state.shortName"
-          @update:model-value="state.changed = true"
+          v-model="company.shortName"
+          @update:model-value="changed = true"
         />
       </div>
     </div>
@@ -50,8 +51,8 @@
           dense
           class="q-pb-none"
           :rules="vatRules"
-          v-model="state.vat"
-          @update:model-value="state.changed = true"
+          v-model="company.vatnumber"
+          @update:model-value="changed = true"
         />
       </div>
     </div>
@@ -65,9 +66,9 @@
           class="q-pb-none"
           dense
           :options="currencies"
-          v-model="state.currency"
+          v-model="company.currencyId"
           :rules="currRules"
-          @update:model-value="state.changed = true"
+          @update:model-value="changed = true"
         />
       </div>
     </div>
@@ -81,9 +82,9 @@
           class="q-pb-none"
           dense
           :options="languages"
-          v-model="state.language"
+          v-model="company.languageId"
           :rules="langRules"
-          @update:model-value="state.changed = true"
+          @update:model-value="changed = true"
         />
       </div>
     </div>
@@ -93,17 +94,19 @@
     </div>
     <div class="row q-pa-md q-gutter-sm items-center">
       <q-card
-        v-for="address in state.addresses"
+        v-for="address in company.addressIds"
         :key="address.id"
         class="q-pa-sm cursor-pointer"
         @click="modifyAddressModal(address)"
       >
         <q-card-section>
-          <q-icon
-            :name="getAddressIcon(address.type)"
-            size="md"
-            :title="address.type"
-          />
+          <div class="text-center">
+            <q-icon
+              :name="getAddressIcon(address.type)"
+              size="md"
+              :title="address.type"
+            />
+          </div>
           <div class="text-subtitle1 text-no-wrap">{{ address.street }}</div>
           <div class="text-subtitle2">
             {{ address.zip }}, {{ address.city }}
@@ -126,13 +129,18 @@
     </div>
     <div class="row q-pa-md q-gutter-sm items-center">
       <q-card
-        v-for="bankAcc in state.bankAccounts"
+        v-for="bankAcc in company.bankAccountIds"
         :key="bankAcc.id"
         class="q-pa-sm cursor-pointer"
+        @click="modifyBankModal(bankAcc)"
       >
         <q-card-section>
-          <div class="text-subtitle2">{{ bankAcc.bank }}</div>
-          <div class="text-overline">{{ bankAcc.label }}</div>
+          <div class="q-mb-sm text-center">
+            <q-icon name="account_balance" size="sm" />
+            <span class="q-ml-sm">{{ bankAcc.currencyId.label }}</span>
+          </div>
+          <div class="text-subtitle2">{{ bankAcc.label }}</div>
+          <div class="text-overline">{{ bankAcc.bank }}</div>
           <div class="text-weight-bold">{{ bankAcc.accountNumber }}</div>
         </q-card-section>
       </q-card>
@@ -142,45 +150,42 @@
         icon="add"
         size="md"
         class="addBtn q-ml-lg"
+        @click="showBankModal"
       />
     </div>
-    <pre class="q-mt-xl">{{ state }}</pre>
   </q-page>
 </template>
 
 <script setup>
-import { computed, reactive } from "vue";
+import { ref, onMounted } from "vue";
 import { v4 as uuid } from "uuid";
-import { getCompanyDetails } from "src/store/company";
-import { getAddressById } from "src/store/address";
-import { getBankAccountById } from "src/store/bank";
-import { getCurrencies, getCurrencyById } from "src/store/currency";
-import { getLanguages, getLangById } from "src/store/language";
 import { useQuasar } from "quasar";
 import AddressDialog from "src/components/AddressDialog.vue";
+import BankDialog from "src/components/BankDialog.vue";
+import { getCompanyDetails, saveCompany } from "src/store/company";
+import { getCurrencies } from "src/store/currency";
+import { getLanguages } from "src/store/language";
 
 const $q = useQuasar();
-const company = computed(() => getCompanyDetails());
-const currencies = computed(() => getCurrencies());
-const languages = computed(() => getLanguages());
+const company = ref({});
+const currencies = ref([]);
+const languages = ref([]);
+const changed = ref(false);
 
-const state = reactive({
-  changed: false,
-  name: company.value.name,
-  shortName: company.value.shortName,
-  vat: company.value.vatnumber,
-  addresses: company.value.addressIds.map((id) => getAddressById(id)),
-  bankAccounts: company.value.bankAccountIds.map((id) =>
-    getBankAccountById(id)
-  ),
-  currency: getCurrencyById(company.value.currencyId),
-  language: getLangById(company.value.languageId),
+onMounted(async () => {
+  await loadDatas();
 });
 
 const nameRules = [(val) => (val && val.length > 0) || "Name can't be empty!"];
 const vatRules = [(val) => (val && val.length > 0) || "VAT can't be empty!"];
 const currRules = [(val) => !!val || "Please select a Currency!"];
 const langRules = [(val) => !!val || "Please select a Language!"];
+
+const loadDatas = async () => {
+  company.value = await getCompanyDetails();
+  currencies.value = await getCurrencies();
+  languages.value = await getLanguages();
+};
 
 const getAddressIcon = (type) => {
   let icon = "home";
@@ -206,10 +211,11 @@ const showAddressModal = () => {
       country: data.country,
       type: data.type,
     };
-    state.addresses.push(newAddress);
-    state.changed = true;
+    company.value.addressIds.push(newAddress);
+    changed.value = true;
   });
 };
+
 const modifyAddressModal = (address) => {
   $q.dialog({
     component: AddressDialog,
@@ -220,7 +226,7 @@ const modifyAddressModal = (address) => {
     },
   }).onOk((data) => {
     if (!Object.keys(data).includes("deleteId")) {
-      const found = state.addresses.find((a) => a.id === data.id);
+      const found = company.value.addressIds.find((a) => a.id === data.id);
       found.active = data.active;
       found.city = data.city;
       found.street = data.street;
@@ -229,12 +235,71 @@ const modifyAddressModal = (address) => {
       found.zip = data.zip;
     } else {
       if (confirm("Are you sure to remove this address?")) {
-        state.addresses = state.addresses.filter((a) => a.id !== data.deleteId);
+        company.value.addressIds = company.value.addressIds.filter(
+          (a) => a.id !== data.deleteId
+        );
       }
     }
 
-    state.changed = true;
+    changed.value = true;
   });
+};
+
+const showBankModal = () => {
+  $q.dialog({
+    component: BankDialog,
+    componentProps: {
+      title: "Add Bank Account",
+      mode: "add",
+    },
+  }).onOk((data) => {
+    const newAcc = {
+      id: uuid(),
+      label: data.label,
+      bank: data.bank,
+      accountNumber: data.accountNumber,
+      currencyId: data.currencyId,
+    };
+    company.value.bankAccountIds.push(newAcc);
+    changed.value = true;
+  });
+};
+
+const modifyBankModal = (bank) => {
+  $q.dialog({
+    component: BankDialog,
+    componentProps: {
+      title: "Modify Bank Account",
+      mode: "edit",
+      account: bank,
+    },
+  }).onOk((data) => {
+    if (!Object.keys(data).includes("deleteId")) {
+      const found = company.value.bankAccountIds.find((b) => b.id === data.id);
+      found.label = data.label;
+      found.bank = data.bank;
+      found.accountNumber = data.accountNumber;
+      found.currencyId = data.currencyId;
+    } else {
+      if (confirm("Are you sure to remove this account?")) {
+        company.value.bankAccountIds = company.value.bankAccountIds.filter(
+          (a) => a.id !== data.deleteId
+        );
+      }
+    }
+    changed.value = true;
+  });
+};
+
+const onSave = async () => {
+  const response = await saveCompany(JSON.stringify(company.value));
+  if (response.status === 200) {
+    loadDatas();
+    changed.value = false;
+  } else {
+    console.log(response);
+    changed.value = false;
+  }
 };
 </script>
 
