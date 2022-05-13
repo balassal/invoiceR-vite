@@ -1,5 +1,8 @@
 <template>
-  <q-page padding>
+  <q-page v-if="loading" class="flex flex-center">
+    <q-spinner-hourglass color="primary" size="8em" />
+  </q-page>
+  <q-page v-else padding>
     <q-btn
       v-if="changed"
       class="q-mb-sm"
@@ -171,6 +174,7 @@ const company = ref({});
 const currencies = ref([]);
 const languages = ref([]);
 const changed = ref(false);
+const loading = ref(false);
 
 onMounted(async () => {
   await loadDatas();
@@ -182,9 +186,11 @@ const currRules = [(val) => !!val || "Please select a Currency!"];
 const langRules = [(val) => !!val || "Please select a Language!"];
 
 const loadDatas = async () => {
+  loading.value = true;
   company.value = await getCompanyDetails();
   currencies.value = await getCurrencies();
   languages.value = await getLanguages();
+  loading.value = false;
 };
 
 const getAddressIcon = (type) => {
