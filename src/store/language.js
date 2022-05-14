@@ -17,3 +17,11 @@ export async function getLangById(id) {
   });
   return language;
 }
+
+export async function saveLanguages(newLang) {
+  return await axios.post(`${apiURL}/languages`, newLang);
+}
+
+export async function deleteLanguage(id) {
+  return await axios.delete(`${apiURL}/languages/${id}`);
+}
