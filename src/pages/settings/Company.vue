@@ -1,7 +1,5 @@
 <template>
-  <q-page v-if="loading" class="flex flex-center">
-    <q-spinner-hourglass color="primary" size="8em" />
-  </q-page>
+  <spinner v-if="loading"></spinner>
   <q-page v-else padding>
     <q-btn
       v-if="changed"
@@ -168,6 +166,7 @@ import BankDialog from "src/components/BankDialog.vue";
 import { getCompanyDetails, saveCompany } from "src/store/company";
 import { getCurrencies } from "src/store/currency";
 import { getLanguages } from "src/store/language";
+import Spinner from "src/components/Spinner.vue";
 
 const $q = useQuasar();
 const company = ref({});
