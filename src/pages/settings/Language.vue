@@ -95,19 +95,37 @@
           <q-td key="label" :props="props">
             {{ props.row.label }}
             <q-popup-edit v-model="props.row.label" v-slot="scope">
-              <q-input v-model="scope.value" dense autofocus counter />
+              <q-input
+                v-model="scope.value"
+                @keyup.enter="handleChange(props.row, scope, 'label')"
+                dense
+                autofocus
+                counter
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="name" :props="props">
             {{ props.row.name }}
             <q-popup-edit v-model="props.row.name" v-slot="scope">
-              <q-input v-model="scope.value" dense autofocus counter />
+              <q-input
+                v-model="scope.value"
+                @keyup.enter="handleChange(props.row, scope, 'name')"
+                dense
+                autofocus
+                counter
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="code" :props="props">
             {{ props.row.shortCode }}
             <q-popup-edit v-model="props.row.shortCode" v-slot="scope">
-              <q-input v-model="scope.value" dense autofocus counter />
+              <q-input
+                v-model="scope.value"
+                @keyup.enter="handleChange(props.row, scope, 'shortCode')"
+                dense
+                autofocus
+                counter
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="actions" :props="props">
@@ -132,6 +150,7 @@ import {
   getLanguages,
   saveLanguages,
   deleteLanguage,
+  updateLanguage,
 } from "src/store/language";
 import { v4 as uuid } from "uuid";
 
@@ -230,6 +249,22 @@ const removeLanguage = async (id) => {
     loadLanguages();
   } else {
     console.log("Failed to delete language: ", response);
+  }
+};
+
+const handleChange = async (row, scope, field) => {
+  const lang = JSON.parse(JSON.stringify(row));
+  const found = languages.value.find((l) => l.id === lang.id);
+  if (scope.value.toString().trim() !== found[field]) {
+    found[field] = scope.value.toString().trim();
+
+    const result = await updateLanguage(found);
+    if (result.status === 200) {
+      scope.cancel();
+      loadLanguages();
+    } else {
+      console.log(response);
+    }
   }
 };
 </script>

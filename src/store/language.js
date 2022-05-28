@@ -25,3 +25,9 @@ export async function saveLanguages(newLang) {
 export async function deleteLanguage(id) {
   return await axios.delete(`${apiURL}/languages/${id}`);
 }
+
+export async function updateLanguage(updLang) {
+  const data = JSON.parse(JSON.stringify(updLang));
+  const res = await axios.put(`${apiURL}/languages/${data.id}`, data);
+  return res;
+}
