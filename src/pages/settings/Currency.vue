@@ -35,6 +35,7 @@
         :columns="rateColumns"
         row-key="date"
         dense
+        :pagination="initialPagination"
       />
     </div>
   </q-page>
@@ -65,6 +66,13 @@ const rateColumns = [
     align: "center",
   },
 ];
+
+const initialPagination = {
+  sortBy: "date",
+  descending: true,
+  page: 1,
+  rowsPerPage: 10,
+};
 
 onMounted(async () => {
   await loadCurrencies();
