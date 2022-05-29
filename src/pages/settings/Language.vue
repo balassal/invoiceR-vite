@@ -68,6 +68,7 @@
       :columns="columns"
       row-key="name"
       :loading="loading"
+      :filter="filter"
       color="primary"
       :pagination="initialPagination"
     >
@@ -84,7 +85,13 @@
           icon="add"
           @click="addRow"
         />
-        <q-input dense debounce="300" color="primary" placeholder="Search...">
+        <q-input
+          dense
+          debounce="300"
+          color="primary"
+          v-model="filter"
+          placeholder="Search..."
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -177,6 +184,7 @@ const initialPagination = {
 const loading = ref(false);
 const languages = ref([]);
 const showForm = ref(false);
+const filter = ref("");
 
 const formLabel = ref(null);
 const formName = ref(null);
