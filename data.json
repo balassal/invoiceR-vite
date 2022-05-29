@@ -3,9 +3,7 @@
     "name": "My Company Corp.",
     "shortName": "MyCompany",
     "vatnumber": "26854625-1-14",
-    "addressIds": [
-      "1f923fb9-4170-4dfb-9881-7f6d310d0467"
-    ],
+    "addressIds": ["1f923fb9-4170-4dfb-9881-7f6d310d0467"],
     "bankAccountIds": [
       "ba1d62ff-e432-4282-94f4-1dbec43c4734",
       "d33c76f4-6873-4587-b776-93374e100d46"
@@ -33,9 +31,7 @@
       "totalAmount": 1270,
       "toBePaid": 0,
       "rounding": 0,
-      "invoiceLines": [
-        "dcf59c48-27d6-429f-90f6-b960cbf33a94"
-      ],
+      "invoiceLines": ["dcf59c48-27d6-429f-90f6-b960cbf33a94"],
       "notes": "",
       "state": "paid",
       "messages": []
@@ -49,9 +45,7 @@
       "quantity": 1,
       "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
       "unitPrice": 1000,
-      "taxesIds": [
-        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
-      ],
+      "taxesIds": ["01e7188b-553a-40b8-9e57-bd6d84ddf873"],
       "taxAmount": 270,
       "netAmount": 1000,
       "total": 1270,
@@ -66,16 +60,12 @@
       "active": true,
       "type": "customer",
       "vatnumber": "HU12345678",
-      "bankAccountIds": [
-        "02d7c709-6188-457c-b8c8-ed158eba05a3"
-      ],
+      "bankAccountIds": ["02d7c709-6188-457c-b8c8-ed158eba05a3"],
       "paymentTherm": 10,
       "paymentMethod": "transfer",
       "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
       "languageId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
-      "addressIds": [
-        "dac29e62-73dc-4460-a655-1d90f44438f4"
-      ]
+      "addressIds": ["dac29e62-73dc-4460-a655-1d90f44438f4"]
     },
     {
       "id": "006eb6c5-da68-480c-b1b7-2f9654e7a307",
@@ -84,16 +74,12 @@
       "active": true,
       "type": "customer",
       "vatnumber": "HU12345677",
-      "bankAccountIds": [
-        "e4e0aa43-3f32-4a72-9f36-bae71d003c4a"
-      ],
+      "bankAccountIds": ["e4e0aa43-3f32-4a72-9f36-bae71d003c4a"],
       "paymentTherm": 0,
       "paymentMethod": "cash",
       "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
       "languageId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
-      "addressIds": [
-        "c4567034-90ea-4b61-9037-14cb9777214a"
-      ]
+      "addressIds": ["c4567034-90ea-4b61-9037-14cb9777214a"]
     }
   ],
   "bankAccounts": [
@@ -185,6 +171,10 @@
         {
           "date": "2022-01-01",
           "exchange": 1
+        },
+        {
+          "date": "2022-01-02",
+          "exchange": 1
         }
       ]
     },
@@ -197,6 +187,10 @@
         {
           "date": "2022-01-01",
           "exchange": 365.11
+        },
+        {
+          "date": "2022-01-02",
+          "exchange": 366.11
         }
       ]
     },
@@ -209,6 +203,10 @@
         {
           "date": "2022-01-01",
           "exchange": 315.11
+        },
+        {
+          "date": "2022-01-02",
+          "exchange": 317.11
         }
       ]
     }
@@ -222,12 +220,8 @@
       "type": "product",
       "internalref": "ASZT-153518",
       "unitprice": 1000,
-      "saletaxes": [
-        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
-      ],
-      "purchasetaxes": [
-        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
-      ],
+      "saletaxes": ["01e7188b-553a-40b8-9e57-bd6d84ddf873"],
+      "purchasetaxes": ["01e7188b-553a-40b8-9e57-bd6d84ddf873"],
       "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
       "note": ""
     },
@@ -239,12 +233,8 @@
       "type": "product",
       "internalref": "SZK-ddfasdf",
       "unitprice": 650,
-      "saletaxes": [
-        "5e3305af-4214-449c-a7e4-3d8ca2406a93"
-      ],
-      "purchasetaxes": [
-        "5e3305af-4214-449c-a7e4-3d8ca2406a93"
-      ],
+      "saletaxes": ["5e3305af-4214-449c-a7e4-3d8ca2406a93"],
+      "purchasetaxes": ["5e3305af-4214-449c-a7e4-3d8ca2406a93"],
       "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
       "note": ""
     }

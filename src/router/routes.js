@@ -35,6 +35,11 @@ const routes = [
         name: "language",
         component: () => import("src/pages/settings/Language.vue"),
       },
+      {
+        path: "/settings/currency",
+        name: "currency",
+        component: () => import("src/pages/settings/Currency.vue"),
+      },
     ],
   },
   {

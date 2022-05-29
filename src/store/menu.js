@@ -50,6 +50,12 @@ const settingsMenu = [
     icon: "language",
     route: "/settings/language",
   },
+  {
+    title: "Currencies",
+    subtitle: "Currency Settings",
+    icon: "attach_money",
+    route: "/settings/currency",
+  },
 ];
 
 export function getMainMenu() {
