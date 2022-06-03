@@ -27,7 +27,7 @@ const mainMenu = [
     title: "Settings",
     subtitle: "General Settings",
     icon: "settings",
-    route: "/settings/company",
+    route: "/settings",
   },
 ];
 
