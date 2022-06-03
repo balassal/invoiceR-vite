@@ -56,6 +56,12 @@ const settingsMenu = [
     icon: "attach_money",
     route: "/settings/currency",
   },
+  {
+    title: "Unit of Measure",
+    subtitle: "Unit of Measure Settings",
+    icon: "square_foot",
+    route: "/settings/uom",
+  },
 ];
 
 export function getMainMenu() {

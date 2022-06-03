@@ -40,6 +40,11 @@ const routes = [
         name: "currency",
         component: () => import("src/pages/settings/Currency.vue"),
       },
+      {
+        path: "/settings/uom",
+        name: "uom",
+        component: () => import("src/pages/settings/Uom.vue"),
+      },
     ],
   },
   {
@@ -50,6 +55,16 @@ const routes = [
         path: "/products/list",
         name: "productList",
         component: () => import("src/pages/product/ProductList.vue"),
+      },
+      {
+        path: "/products/new",
+        name: "createProduct",
+        component: () => import("src/pages/product/Product.vue"),
+      },
+      {
+        path: "/products/:id",
+        name: "product",
+        component: () => import("src/pages/product/Product.vue"),
       },
     ],
   },
