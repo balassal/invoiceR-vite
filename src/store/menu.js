@@ -62,6 +62,12 @@ const settingsMenu = [
     icon: "square_foot",
     route: "/settings/uom",
   },
+  {
+    title: "Taxes",
+    subtitle: "Taxes Settings",
+    icon: "euro",
+    route: "/settings/taxes",
+  },
 ];
 
 export function getMainMenu() {

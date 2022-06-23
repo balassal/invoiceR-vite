@@ -50,6 +50,11 @@ const routes = [
         name: "uom",
         component: () => import("src/pages/settings/Uom.vue"),
       },
+      {
+        path: "/settings/taxes",
+        name: "taxes",
+        component: () => import("src/pages/settings/Tax.vue"),
+      },
     ],
   },
   {
