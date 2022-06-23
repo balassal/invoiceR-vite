@@ -146,9 +146,6 @@
         </q-expansion-item>
       </q-card>
     </div>
-    <div class="q-pa-mm">
-      <pre>{{ taxes }}</pre>
-    </div>
   </q-page>
 </template>
 
