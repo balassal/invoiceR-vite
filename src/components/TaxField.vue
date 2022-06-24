@@ -40,10 +40,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  taxValue: {
-    type: Object,
-    required: true,
-  },
+  taxValue: [String, Number],
   type: {
     type: String,
     required: true,
