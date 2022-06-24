@@ -15,11 +15,21 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer width="225" v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer
+      :width="drawerWidth"
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+    >
       <q-list>
         <q-item-label header> </q-item-label>
 
-        <q-item v-for="(item, index) in menu" :key="index" :to="item.route" exact>
+        <q-item
+          v-for="(item, index) in menu"
+          :key="index"
+          :to="item.route"
+          exact
+        >
           <q-item-section avatar>
             <q-icon :name="item.icon" />
           </q-item-section>
@@ -55,14 +65,15 @@ import { getMainMenu, getSettingsMenu } from "src/store/menu";
 
 const route = useRoute();
 const leftDrawerOpen = ref(false);
+const drawerWidth = 225;
 
 const menu = computed(() => {
   return route.fullPath.startsWith("/settings")
     ? getSettingsMenu()
-    : getMainMenu()
+    : getMainMenu();
 });
 
-const  toggleLeftDrawer = () => {
+const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
-}
+};
 </script>
