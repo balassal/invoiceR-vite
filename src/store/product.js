@@ -34,3 +34,25 @@ export async function getProductById(id) {
     uomId: await getUomById(product.uomId),
   };
 }
+
+export async function updateProduct(updProduct) {
+  const data = JSON.parse(JSON.stringify(updProduct));
+  data.saletaxes = data.saletaxes.map((t) => t.id);
+  data.purchasetaxes = data.purchasetaxes.map((t) => t.id);
+  data.uomId = data.uomId.id;
+  const res = await axios.put(`${apiURL}/products/${data.id}`, data);
+  return res;
+}
+
+export async function deleteProduct(id) {
+  return axios.delete(`${apiURL}/products/${id}`);
+}
+
+export async function createProduct(newProduct) {
+  const data = JSON.parse(JSON.stringify(newProduct));
+  data.saletaxes = data.saletaxes.map((t) => t.id);
+  data.purchasetaxes = data.purchasetaxes.map((t) => t.id);
+  data.uomId = data.uomId.id;
+  const res = await axios.post(`${apiURL}/products`, data);
+  return res;
+}

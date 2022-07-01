@@ -235,13 +235,14 @@
       "internalref": "ASZT-153518",
       "unitprice": 1000,
       "saletaxes": [
+        "01e7188b-553a-40b8-9e57-bd6d84ddf873",
         "01e7188b-553a-40b8-9e57-bd6d84ddf873"
       ],
       "purchasetaxes": [
         "01e7188b-553a-40b8-9e57-bd6d84ddf873"
       ],
       "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
-      "note": ""
+      "note": "Lórum ipse: a bergés hat a cikó penyő akól, csata, storvalya. 1937-ben nagyos sevelmelékek alapján szadobatják, volgazják, majd 1941-ben 53 szülő csavályában, reányban folyogják."
     },
     {
       "id": "93c8f154-d02f-4ca6-ba6f-42eb613de40a",
@@ -259,13 +260,60 @@
       ],
       "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
       "note": ""
+    },
+    {
+      "id": "11045964-70a6-4b39-86af-278daa3b4b37",
+      "name": "Product One",
+      "label": "Product One",
+      "active": true,
+      "type": "product",
+      "internalref": "",
+      "unitprice": 0,
+      "saletaxes": [],
+      "purchasetaxes": [],
+      "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
+      "note": ""
+    },
+    {
+      "id": "39063347-973b-448a-a844-ec47ce87c9fe",
+      "name": "Product Two",
+      "label": "Product Two",
+      "active": true,
+      "type": "service",
+      "internalref": "PROD-2",
+      "unitprice": 2222,
+      "saletaxes": [
+        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
+      ],
+      "purchasetaxes": [
+        "88183b1d-6a09-4f9b-ba18-44113b64dac8"
+      ],
+      "uomId": "190c6c66-0e1a-4f98-a114-6eb2c0393142",
+      "note": ""
+    },
+    {
+      "id": "d9425b2d-06a6-47dd-a985-0b7f8eb9c7d7",
+      "name": "Product Three",
+      "label": "Product Three",
+      "active": true,
+      "type": "service",
+      "internalref": "PROD-3",
+      "unitprice": 555,
+      "saletaxes": [
+        "5e3305af-4214-449c-a7e4-3d8ca2406a93"
+      ],
+      "purchasetaxes": [
+        "88183b1d-6a09-4f9b-ba18-44113b64dac8"
+      ],
+      "uomId": "05aa6487-bbc6-474d-9dff-f05defdfa71c",
+      "note": ""
     }
   ],
   "taxes": [
     {
       "id": "01e7188b-553a-40b8-9e57-bd6d84ddf873",
       "name": "27%",
-      "category": "vat",
+      "category": "VAT",
       "active": true,
       "type": "sale",
       "scope": "item",
@@ -284,6 +332,18 @@
       "computation": "percentage",
       "amount": 0.2,
       "label": "20%",
+      "included": false
+    },
+    {
+      "id": "88183b1d-6a09-4f9b-ba18-44113b64dac8",
+      "name": "27%",
+      "category": "VAT",
+      "active": true,
+      "type": "purchase",
+      "scope": "item",
+      "computation": "percentage",
+      "amount": 0.27,
+      "label": "27%",
       "included": false
     }
   ],

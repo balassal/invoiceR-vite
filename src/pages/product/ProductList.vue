@@ -65,11 +65,13 @@
 import { useQuasar } from "quasar";
 import { getProducts } from "src/store/product";
 import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 
 const $q = useQuasar();
 const screenHeight = computed(() => {
   return $q.screen.height - 80;
 });
+const router = useRouter();
 
 const columns = [
   {
@@ -140,7 +142,7 @@ const loadProducts = async () => {
 };
 
 const onRowClicked = (e, row) => {
-  console.log("row :>> ", row);
+  router.push({ name: "product", params: { id: row.id } });
 };
 
 const handleFilter = (e) => {
