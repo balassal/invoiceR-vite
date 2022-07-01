@@ -18,6 +18,15 @@ export async function getTaxById(id) {
   return tax;
 }
 
+export async function getTaxesByType(type) {
+  let taxes = [];
+  await axios.get(`${apiURL}/taxes?type=${type}`).then((res) => {
+    taxes = res.data;
+  });
+
+  return taxes;
+}
+
 export async function updateTax(updatedTax) {
   const data = JSON.parse(JSON.stringify(updatedTax));
   const res = await axios.put(`${apiURL}/taxes/${data.id}`, data);

@@ -19,7 +19,12 @@
     </div>
     <div class="q-pa-sm">
       <q-card v-for="tax in taxes" :key="tax.id" flat bordered class="q-mb-sm">
-        <q-expansion-item expand-separator :label="tax.label" group="taxes">
+        <q-expansion-item
+          expand-separator
+          :label="tax.label"
+          :caption="tax.type"
+          group="taxes"
+        >
           <q-card>
             <q-card-section vertical class="q-pa-sm">
               <div class="row items-center q-px-sm">
