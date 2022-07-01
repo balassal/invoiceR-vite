@@ -206,7 +206,6 @@
         </div>
       </template>
     </div>
-    <pre>{{ product }}</pre>
   </q-page>
 </template>
 
