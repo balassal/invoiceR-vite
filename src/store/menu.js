@@ -15,7 +15,7 @@ const mainMenu = [
     title: "Partners",
     subtitle: "Partner Settings",
     icon: "groups",
-    route: "/partners",
+    route: "/partner/list",
   },
   {
     title: "Products",
