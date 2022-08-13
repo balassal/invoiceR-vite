@@ -37,3 +37,29 @@ export async function getPartnerById(id) {
     ),
   };
 }
+
+export async function updatePartner(updPartner) {
+  const data = JSON.parse(JSON.stringify(updPartner));
+  data.bankAccountIds = data.bankAccountIds.map((acc) => acc.id);
+  data.currencyId = data.currencyId.id;
+  data.languageId = data.languageId.id;
+  data.addressIds = data.addressIds.map((acc) => acc.id);
+
+  const res = await axios.put(`${apiURL}/partners/${data.id}`, data);
+  return res;
+}
+
+export async function deletePartner(id) {
+  return axios.delete(`${apiURL}/partners/${id}`);
+}
+
+export async function createPartner(newPartner) {
+  const data = JSON.parse(JSON.stringify(newPartner));
+  data.bankAccountIds = data.bankAccountIds.map((acc) => acc.id);
+  data.currencyId = data.currencyId.id;
+  data.languageId = data.languageId.id;
+  data.addressIds = data.addressIds.map((acc) => acc.id);
+
+  const res = await axios.post(`${apiURL}/partners`, data);
+  return res;
+}
