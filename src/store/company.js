@@ -25,7 +25,7 @@ export async function getCompanyDetails() {
 }
 
 export async function saveCompany(company) {
-  const data = JSON.parse(company);
+  const data = JSON.parse(JSON.stringify(company));
   const toSave = {
     name: data.name,
     shortName: data.shortName,
