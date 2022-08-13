@@ -206,18 +206,15 @@ const showAddressModal = () => {
       title: "Add new address",
       mode: "add",
     },
-  }).onOk((data) => {
-    const newAddress = {
-      id: uuid(),
-      active: true,
-      street: data.address,
-      zip: data.zip,
-      city: data.city,
-      country: data.country,
-      type: data.type,
-    };
-    company.value.addressIds.push(newAddress);
-    changed.value = true;
+  }).onOk(async ({ address }) => {
+    company.value.addressIds.push(address);
+    const response = await saveCompany(company.value);
+    if (response.status === 200) {
+      await loadDatas();
+    } else {
+      alert("Cannot save company");
+      console.log("Cannot save company: ", response);
+    }
   });
 };
 
@@ -229,24 +226,22 @@ const modifyAddressModal = (address) => {
       mode: "edit",
       address: address,
     },
-  }).onOk((data) => {
-    if (!Object.keys(data).includes("deleteId")) {
-      const found = company.value.addressIds.find((a) => a.id === data.id);
-      found.active = data.active;
-      found.city = data.city;
-      found.street = data.street;
-      found.country = data.country;
-      found.type = data.type;
-      found.zip = data.zip;
-    } else {
-      if (confirm("Are you sure to remove this address?")) {
-        company.value.addressIds = company.value.addressIds.filter(
-          (a) => a.id !== data.deleteId
-        );
+  }).onOk(async (data) => {
+    const keys = Object.keys(data);
+    if (keys.includes("deleted")) {
+      company.value.addressIds = company.value.addressIds.filter(
+        (addr) => addr.id !== data.deleted
+      );
+      const response = await saveCompany(company.value);
+      if (response.status === 200) {
+        await loadDatas();
+      } else {
+        alert("Cannot save company after deleting address");
+        console.log("Cannot save company: ", response);
       }
+    } else if (keys.includes("updated")) {
+      await loadDatas();
     }
-
-    changed.value = true;
   });
 };
 
@@ -257,16 +252,15 @@ const showBankModal = () => {
       title: "Add Bank Account",
       mode: "add",
     },
-  }).onOk((data) => {
-    const newAcc = {
-      id: uuid(),
-      label: data.label,
-      bank: data.bank,
-      accountNumber: data.accountNumber,
-      currencyId: data.currencyId,
-    };
-    company.value.bankAccountIds.push(newAcc);
-    changed.value = true;
+  }).onOk(async ({ account }) => {
+    company.value.bankAccountIds.push(account);
+    const response = await saveCompany(company.value);
+    if (response.status === 200) {
+      await loadDatas();
+    } else {
+      alert("Cannot save company");
+      console.log("Cannot save company: ", response);
+    }
   });
 };
 
@@ -278,21 +272,22 @@ const modifyBankModal = (bank) => {
       mode: "edit",
       account: bank,
     },
-  }).onOk((data) => {
-    if (!Object.keys(data).includes("deleteId")) {
-      const found = company.value.bankAccountIds.find((b) => b.id === data.id);
-      found.label = data.label;
-      found.bank = data.bank;
-      found.accountNumber = data.accountNumber;
-      found.currencyId = data.currencyId;
-    } else {
-      if (confirm("Are you sure to remove this account?")) {
-        company.value.bankAccountIds = company.value.bankAccountIds.filter(
-          (a) => a.id !== data.deleteId
-        );
+  }).onOk(async (data) => {
+    const keys = Object.keys(data);
+    if (keys.includes("deleted")) {
+      company.value.bankAccountIds = company.value.bankAccountIds.filter(
+        (acc) => acc.id !== data.deleted
+      );
+      const response = await saveCompany(company.value);
+      if (response.status === 200) {
+        await loadDatas();
+      } else {
+        alert("Cannot save company after deleting bank account");
+        console.log("Cannot save company: ", response);
       }
+    } else if (keys.includes("updated")) {
+      await loadDatas();
     }
-    changed.value = true;
   });
 };
 
