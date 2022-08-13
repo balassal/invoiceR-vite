@@ -68,7 +68,7 @@
           v-if="props.mode === 'edit' && state.modified"
           color="orange"
           icon="edit"
-          label="Edit"
+          label="Modify"
           @click="onModify"
         />
       </q-card-actions>
@@ -77,9 +77,17 @@
 </template>
 
 <script setup>
-import { useDialogPluginComponent } from "quasar";
+import { useDialogPluginComponent, useQuasar } from "quasar";
 import { ref, reactive, onMounted } from "vue";
 import { getCurrencies } from "src/store/currency";
+import {
+  createBankAccount,
+  updateBankAccount,
+  deleteBankAccount,
+} from "src/store/bank";
+import { v4 as uuid } from "uuid";
+
+const $q = useQuasar();
 
 const props = defineProps({
   title: {
@@ -129,32 +137,71 @@ const isValid = () => {
   );
 };
 
-const onAdd = () => {
+const onAdd = async () => {
   if (isValid()) {
-    onDialogOK({
+    const newAcc = {
+      id: uuid(),
       label: state.label,
       bank: state.bank,
       accountNumber: state.accountNumber,
-      currencyId: state.currencyId,
-    });
+      currencyId: state.currencyId.id,
+    };
+    const response = await createBankAccount(newAcc);
+    if (response.status === 200 || response.status === 201) {
+      onDialogOK({
+        account: newAcc,
+      });
+    } else {
+      alert("Cannot create account");
+      console.log("Cannot create account: ", response);
+    }
   }
 };
 
-const onModify = () => {
-  if (isValid()) {
-    onDialogOK({
-      id: state.id,
-      label: state.label,
-      bank: state.bank,
-      accountNumber: state.accountNumber,
-      currencyId: state.currencyId,
-    });
-  }
+const onModify = async () => {
+  $q.dialog({
+    title: "Confirm",
+    message: "Are you sure to modify account?",
+    cancel: true,
+    persistent: true,
+  }).onOk(async () => {
+    if (isValid()) {
+      const updAcc = {
+        id: state.id,
+        label: state.label,
+        bank: state.bank,
+        accountNumber: state.accountNumber,
+        currencyId: state.currencyId.id,
+      };
+      const response = await updateBankAccount(updAcc);
+      if (response.status === 200) {
+        onDialogOK({
+          updated: true,
+        });
+      } else {
+        alert("Cannot update account");
+        console.log("Cannot update account: ", response);
+      }
+    }
+  });
 };
 
-const onDelete = () => {
-  onDialogOK({
-    deleteId: state.id,
+const onDelete = async () => {
+  $q.dialog({
+    title: "Confirm",
+    message: "Are you sure to delete account?",
+    cancel: true,
+    persistent: true,
+  }).onOk(async () => {
+    const response = await deleteBankAccount(state.id);
+    if (response.status === 200) {
+      onDialogOK({
+        deleted: state.id,
+      });
+    } else {
+      alert("Cannot remove account");
+      console.log("Cannot remove account: ", response);
+    }
   });
 };
 </script>

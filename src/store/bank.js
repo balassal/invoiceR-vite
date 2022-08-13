@@ -26,3 +26,19 @@ export async function getBankAccountById(id) {
     currencyId: await getCurrencyById(account.currencyId),
   };
 }
+
+export async function createBankAccount(newAcc) {
+  const data = JSON.parse(JSON.stringify(newAcc));
+  const res = axios.post(`${apiURL}/bankAccounts`, data);
+  return res;
+}
+
+export async function updateBankAccount(updAcc) {
+  const data = JSON.parse(JSON.stringify(updAcc));
+  const res = axios.put(`${apiURL}/bankAccounts/${data.id}`, data);
+  return res;
+}
+
+export async function deleteBankAccount(id) {
+  return axios.delete(`${apiURL}/bankAccounts/${id}`);
+}
