@@ -93,8 +93,12 @@
 </template>
 
 <script setup>
-import { useDialogPluginComponent } from "quasar";
+import { useDialogPluginComponent, useQuasar } from "quasar";
 import { ref, reactive } from "vue";
+import { v4 as uuid } from "uuid";
+import { createAddress, deleteAddress } from "src/store/address";
+
+const $q = useQuasar();
 
 const props = defineProps({
   title: {
@@ -143,15 +147,26 @@ const isValid = () => {
   );
 };
 
-const onAdd = () => {
+const onAdd = async () => {
   if (isValid()) {
-    onDialogOK({
-      address: state.address,
+    const newAddr = {
+      id: uuid(),
+      street: state.address,
       zip: state.zip,
       city: state.city,
       country: state.country,
       type: state.type,
-    });
+      active: true,
+    };
+    const response = await createAddress(newAddr);
+    if (response.status === 200 || response.status === 201) {
+      onDialogOK({
+        address: newAddr,
+      });
+    } else {
+      alert("Cannot create address");
+      console.log("Cannot create address: ", response);
+    }
   }
 };
 
@@ -169,9 +184,22 @@ const onModify = () => {
   }
 };
 
-const onDelete = () => {
-  onDialogOK({
-    deleteId: state.id,
+const onDelete = async () => {
+  $q.dialog({
+    title: "Confirm",
+    message: "Are you sure to delete address?",
+    cancel: true,
+    persistent: true,
+  }).onOk(async () => {
+    const response = await deleteAddress(state.id);
+    if (response.status === 200) {
+      onDialogOK({
+        deleted: state.id,
+      });
+    } else {
+      alert("Cannot remove address");
+      console.log("Cannot remove address: ", response);
+    }
   });
 };
 </script>
