@@ -84,7 +84,7 @@
           v-if="props.mode === 'edit' && state.modified"
           color="orange"
           icon="edit"
-          label="Edit"
+          label="Modify"
           @click="onModify"
         />
       </q-card-actions>
@@ -96,7 +96,7 @@
 import { useDialogPluginComponent, useQuasar } from "quasar";
 import { ref, reactive } from "vue";
 import { v4 as uuid } from "uuid";
-import { createAddress, deleteAddress } from "src/store/address";
+import { createAddress, deleteAddress, updateAddress } from "src/store/address";
 
 const $q = useQuasar();
 
@@ -170,18 +170,34 @@ const onAdd = async () => {
   }
 };
 
-const onModify = () => {
-  if (isValid()) {
-    onDialogOK({
-      id: state.id,
-      active: state.active,
-      street: state.address,
-      zip: state.zip,
-      city: state.city,
-      country: state.country,
-      type: state.type,
-    });
-  }
+const onModify = async () => {
+  $q.dialog({
+    title: "Confirm",
+    message: "Are you sure to modify address?",
+    cancel: true,
+    persistent: true,
+  }).onOk(async () => {
+    if (isValid()) {
+      const updAddr = {
+        id: state.id,
+        active: state.active,
+        street: state.address,
+        zip: state.zip,
+        city: state.city,
+        country: state.country,
+        type: state.type,
+      };
+      const response = await updateAddress(updAddr);
+      if (response.status === 200) {
+        onDialogOK({
+          updated: true,
+        });
+      } else {
+        alert("Cannot update address");
+        console.log("Cannot update address: ", response);
+      }
+    }
+  });
 };
 
 const onDelete = async () => {
