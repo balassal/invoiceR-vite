@@ -62,7 +62,7 @@
     {
       "id": "03d7e9f4-a23b-488d-9724-baaaf0e747c1",
       "name": "Partner 1",
-      "label": "Partner 1",
+      "label": "Partner One",
       "active": true,
       "type": "customer",
       "vatnumber": "HU12345678",
@@ -278,7 +278,7 @@
       "id": "39063347-973b-448a-a844-ec47ce87c9fe",
       "name": "Product Two",
       "label": "Product Two",
-      "active": true,
+      "active": false,
       "type": "service",
       "internalref": "PROD-2",
       "unitprice": 2222,
