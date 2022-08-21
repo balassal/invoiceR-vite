@@ -2,9 +2,9 @@
   <q-page class="q-pa-sm">
     <div class="q-mt-sm shadow-2">
       <q-table
-        title="Products"
-        class="products-table"
-        :rows="products"
+        title="Partners"
+        class="partner-table"
+        :rows="partners"
         :columns="columns"
         row-key="id"
         :visible-columns="visibleColumns"
@@ -19,7 +19,7 @@
       >
         <template v-slot:top>
           <div class="q-gutter-xs">
-            <q-btn color="primary" icon="add" label="Add" to="/products/new" />
+            <q-btn color="primary" icon="add" label="Add" to="/partner/new" />
           </div>
           <q-space />
           <q-input
@@ -63,8 +63,8 @@
 
 <script setup>
 import { useQuasar } from "quasar";
-import { getProducts } from "src/store/product";
-import { ref, onMounted, computed } from "vue";
+import { getPartners } from "src/store/partner";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const $q = useQuasar();
@@ -72,6 +72,10 @@ const screenHeight = computed(() => {
   return $q.screen.height - 80;
 });
 const router = useRouter();
+const loading = ref(false);
+const partners = ref([]);
+const filter = ref("");
+const selected = ref([]);
 
 const columns = [
   {
@@ -82,78 +86,54 @@ const columns = [
     field: "name",
     sortable: true,
   },
-  { name: "label", label: "Label", field: "label", sortable: true },
   {
-    name: "internalref",
-    label: "Reference",
-    field: "internalref",
+    name: "label",
+    label: "Label",
+    align: "center",
+    field: "label",
     sortable: true,
   },
   {
     name: "active",
     label: "Active?",
+    align: "center",
     field: "active",
-    sortable: true,
     format: (val) => `${val === true ? "Active" : "Inactive"}`,
   },
-  { name: "type", label: "Type", field: "type", sortable: true },
   {
-    name: "unitprice",
-    label: "Price",
-    field: "unitprice",
-    sortable: true,
-    format: (val) => `${val.toLocaleString("hu-HU")}`,
-  },
-  {
-    name: "uomId",
-    label: "UOM",
-    field: (row) => row.uomId.name,
+    name: "type",
+    label: "Type",
+    align: "center",
+    field: "type",
     sortable: true,
   },
   {
-    name: "saletaxes",
-    label: "Sale taxes",
-    field: (row) => {
-      const taxes = row.saletaxes.map((t) => t.name);
-      return taxes.join(", ");
-    },
+    name: "vatnumber",
+    label: "VAT",
+    align: "center",
+    field: "vatnumber",
     sortable: true,
   },
-  {
-    name: "purchasetaxes",
-    label: "Purchase taxes",
-    field: (row) => {
-      const taxes = row.purchasetaxes.map((t) => t.name);
-      return taxes.join(", ");
-    },
-    sortable: true,
-  },
-  { name: "note", label: "Note", field: "note", sortable: true },
 ];
-const visibleColumns = ref(["name", "label", "internalref", "active"]);
-
-const products = ref([]);
-const loading = ref(false);
-const selected = ref([]);
-const filter = ref("");
+const visibleColumns = ref(["name", "type", "vatnumber", "active"]);
 
 onMounted(async () => {
-  await loadProducts();
+  await loadPartners();
 });
 
-const loadProducts = async () => {
+const loadPartners = async () => {
   loading.value = true;
-  products.value = await getProducts();
+  partners.value = await getPartners();
   loading.value = false;
 };
 
 const onRowClicked = (e, row) => {
-  router.push({ name: "product", params: { id: row.id } });
+  router.push({ name: "partner", params: { id: row.id } });
 };
 </script>
 
 <style lang="sass">
-.products-table
+.partner-table
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th /* bg color is important for th; just specify one */
