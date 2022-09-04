@@ -14,7 +14,13 @@
   >
     <template v-slot:top>
       <div class="q-gutter-xs">
-        <q-btn v-if="editable" color="primary" icon="add" label="Add" @click="onAddBtn" />
+        <q-btn
+          v-if="editable"
+          color="primary"
+          icon="add"
+          label="Add"
+          @click="onAddBtn"
+        />
       </div>
       <q-space />
       <q-select
@@ -33,25 +39,15 @@
       />
     </template>
   </q-table>
-
-  <invoice-line-dialog
-    :title="dialogTitle"
-    :show="showDialog"
-    @update:show="(newValue) => showDialog = newValue"
-    :line="selectedLine"
-    @onAddNewLine="addNewLine($event)"
-    :edit="editLine"
-    @onModifyLine="modifyLine($event)"
-    @onDeleteLine="deleteLine($event)"
-  >
-  </invoice-line-dialog>
-
 </template>
 
 <script setup>
 import { ref, computed, reactive } from "vue";
-import InvoiceLineDialog from "./InvoiceLineDialog.vue";
 import { v4 as uuid } from "uuid";
+import { useQuasar } from "quasar";
+import InvoiceLineDialog from "./InvoiceLineDialog.vue";
+
+const $q = useQuasar();
 
 const columns = [
   {
@@ -122,8 +118,8 @@ const columns = [
 const rows = computed({
   get() {
     return props.lines;
-  }
-})
+  },
+});
 
 const visibleColumns = ref([
   "product",
@@ -140,23 +136,22 @@ const visibleColumns = ref([
 const props = defineProps({
   invoiceId: {
     type: String,
-    required: true
+    required: true,
   },
   lines: {
     type: Array,
-    required: true
+    required: true,
   },
   editable: {
     type: Boolean,
-    required: true
-  }
-})
-const emit = defineEmits(["addNewLine", "modifyLine", "deleteLine"])
+    required: true,
+  },
+});
+const emit = defineEmits(["addNewLine", "modifyLine", "deleteLine"]);
 
 const loading = ref(false);
 const filter = ref("");
-const showDialog = ref(false);
-const editLine = ref(false);
+// const editLine = ref(false);
 const dialogTitle = ref("");
 const selectedLine = reactive({
   id: uuid(),
@@ -169,55 +164,35 @@ const selectedLine = reactive({
   taxesIds: [],
   taxAmount: 0,
   netAmount: 0,
-  total: 0
+  total: 0,
 });
 
 const onAddBtn = () => {
-  dialogTitle.value = "Add new line";
-  editLine.value = false;
-  selectedLine.id = uuid();
-  selectedLine.invoiceId = props.invoiceId;
-  selectedLine.productId = "";
-  selectedLine.label = "";
-  selectedLine.quantity = 0;
-  selectedLine.uomId = "";
-  selectedLine.unitPrice = 0;
-  selectedLine.taxesIds = [];
-  selectedLine.taxAmount = 0;
-  selectedLine.netAmount = 0;
-  selectedLine.total = 0;
-  showDialog.value = true;
+  $q.dialog({
+    component: InvoiceLineDialog,
+    componentProps: {
+      title: "Add line",
+      mode: "add",
+    },
+  }).onOk(async ({ line }) => {
+    emit("addNewLine", { line });
+  });
 };
 
 const handleRowSelect = (event, row, index) => {
-  if (props.editable) {
-    dialogTitle.value = "Modify line"
-    selectedLine.id = row.id;
-    selectedLine.invoiceId = row.invoiceId;
-    selectedLine.productId = row.productId;
-    selectedLine.label = row.label;
-    selectedLine.quantity = row.quantity;
-    selectedLine.uomId = row.uomId;
-    selectedLine.unitPrice = row.unitPrice;
-    selectedLine.taxesIds = row.taxesIds;
-    selectedLine.taxAmount = row.taxAmount;
-    selectedLine.netAmount = row.netAmount;
-    selectedLine.total = row.total;
-    editLine.value = true;
-    showDialog.value = true;
-  }
-}
-
-const addNewLine = (event) => {
-  emit("addNewLine", event);
-}
-
-const modifyLine = (event) => {
-  emit("modifyLine", event);
-}
-
-const deleteLine = (event) => {
-  emit("deleteLine", event);
-}
-
+  $q.dialog({
+    component: InvoiceLineDialog,
+    componentProps: {
+      title: "Modify line",
+      mode: "edit",
+      line: JSON.parse(JSON.stringify(row)),
+    },
+  }).onOk((result) => {
+    if (result.type === "update") {
+      emit("modifyLine", { line: result.line });
+    } else if (result.type === "delete") {
+      emit("deleteLine", { id: result.id });
+    }
+  });
+};
 </script>
