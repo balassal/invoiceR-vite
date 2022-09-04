@@ -3,7 +3,6 @@
     <div class="col-3">Partner</div>
     <div class="col-9">
       <q-select
-        clearable
         dense
         class="q-pb-none"
         ref="partnerSelect"
@@ -30,23 +29,14 @@
           {{ selectedPartner.addressIds[0].street }}
         </div>
       </div>
-    </template>
-    <div class="row items-center q-pa-sm">
-      <div class="col-3">Bank</div>
-      <div class="col-9">
-        <q-select
-          clearable
-          dense
-          class="q-pb-none"
-          ref="bankSelect"
-          :readonly="!editable"
-          :options="selectedPartner.bankAccountIds"
-          v-model="selectedBank"
-          :rules="[(val) => !!val || 'Please select a Bank Account']"
-          lazy-rules="ondemand"
-        />
+      <div class="row items-center q-pa-sm">
+        <div class="col-3">Bank</div>
+        <div class="col-9">
+          {{ selectedPartner.bankAccountIds[0].label }} -
+          {{ selectedPartner.bankAccountIds[0].accountNumber }}
+        </div>
       </div>
-    </div>
+    </template>
   </template>
 </template>
 
@@ -61,11 +51,7 @@ const props = defineProps({
     default: true,
   },
   partner: {
-    type: Object,
-    required: true,
-  },
-  bank: {
-    type: Object,
+    type: [Object, null],
     required: true,
   },
 });
@@ -83,21 +69,13 @@ const selectedPartner = computed({
     emit("update:partner", JSON.stringify(val));
   },
 });
-const selectedBank = computed({
-  get() {
-    return props.bank;
-  },
-  set(val) {
-    emit("update:bank", JSON.stringify(val));
-  },
-});
 
 onMounted(async () => {
   partners.value = await getPartners();
 });
 
 const isValid = () => {
-  return partnerSelect.value.validate() && bankSelect.value.validate();
+  return partnerSelect.value.validate();
 };
 
 defineExpose({ isValid });
