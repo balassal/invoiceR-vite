@@ -1,9 +1,8 @@
 <template>
-  <div class="row items-center q-py-sm">
+  <div class="row items-center q-pa-sm">
     <div class="col-3">Language</div>
     <div class="col-9">
       <q-select
-        clearable
         class="q-pb-none"
         dense
         ref="langSelect"
@@ -29,8 +28,8 @@ const props = defineProps({
   },
   language: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emit = defineEmits(["update:language"]);
@@ -39,15 +38,15 @@ const languages = ref(null);
 const langSelect = ref(null);
 const selectedLang = computed({
   get() {
-    return props.language
+    return props.language;
   },
   set(val) {
     emit("update:language", val);
-  }
-})
+  },
+});
 
-onMounted(() => {
-  languages.value = getLanguages();
+onMounted(async () => {
+  languages.value = await getLanguages();
   selectedLang.value = languages.value.find((l) => l.shortCode == "hu");
 });
 
@@ -55,5 +54,5 @@ const isValid = () => {
   return langSelect.value.validate();
 };
 
-defineExpose({ isValid })
+defineExpose({ isValid });
 </script>
