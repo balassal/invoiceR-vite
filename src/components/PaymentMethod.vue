@@ -9,7 +9,6 @@
         :readonly="!props.editable"
         :options="paymentModes"
         v-model="selectedPaymentMode"
-        @udpate:model-value="onChangeMethod"
         :rules="[(val) => !!val || 'Please select a Payment']"
         lazy-rules="ondemand"
       />
@@ -18,7 +17,7 @@
 </template>
 
 <script setup>
-import {ref, computed} from "vue";
+import { ref, computed } from "vue";
 
 const paymentModes = ["transfer", "credit", "card", "cash", "voucher"];
 const selectedPaymentMode = computed({
@@ -27,8 +26,8 @@ const selectedPaymentMode = computed({
   },
   set(val) {
     emit("update:model-value", val);
-  }
-})
+  },
+});
 const paymentMethodField = ref(null);
 const props = defineProps({
   editable: {
@@ -38,8 +37,8 @@ const props = defineProps({
   },
   modelValue: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 const emit = defineEmits(["update:model-value"]);
 
@@ -47,5 +46,5 @@ const isValid = () => {
   return paymentMethodField.value.validate();
 };
 
-defineExpose({ isValid })
+defineExpose({ isValid });
 </script>
