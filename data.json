@@ -17,7 +17,6 @@
     {
       "id": "49b3059b-b099-4883-bc01-bd39afa177ae",
       "name": "INV-2022/0001",
-      "number": "INV-2022/0001",
       "partnerId": "03d7e9f4-a23b-488d-9724-baaaf0e747c1",
       "invoiceDate": "2022-01-15",
       "deliveryDate": "2022-01-15",
@@ -37,7 +36,58 @@
         "dcf59c48-27d6-429f-90f6-b960cbf33a94"
       ],
       "notes": "",
-      "state": "paid",
+      "status": "paid",
+      "messages": []
+    },
+    {
+      "id": "4023d5ba-f089-453e-9c84-1c640770389e",
+      "name": "Draft",
+      "partnerId": "03d7e9f4-a23b-488d-9724-baaaf0e747c1",
+      "invoiceDate": "2022-08-29",
+      "deliveryDate": "2022-08-29",
+      "dueDate": "2022-09-08",
+      "paymentTherm": 10,
+      "paymentMode": "transfer",
+      "invoiceBankId": "02d7c709-6188-457c-b8c8-ed158eba05a3",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
+      "exchangeRate": 1,
+      "invoiceLangId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
+      "netAmount": 10000,
+      "vatAmount": 2700,
+      "totalAmount": 12700,
+      "toBePaid": 12700,
+      "rounding": "None",
+      "invoiceLines": [
+        "a1bbe41a-bb22-4a9c-aa14-795fe4e8aa14"
+      ],
+      "notes": "",
+      "status": "draft",
+      "messages": []
+    },
+    {
+      "id": "5015926a-0984-4d9a-b88b-0cba083ffe20",
+      "name": "Draft",
+      "partnerId": "006eb6c5-da68-480c-b1b7-2f9654e7a307",
+      "invoiceDate": "2022-08-30",
+      "deliveryDate": "2022-08-30",
+      "dueDate": "2022-09-29",
+      "paymentTherm": 30,
+      "paymentMode": "transfer",
+      "invoiceBankId": "e4e0aa43-3f32-4a72-9f36-bae71d003c4a",
+      "currencyId": "8aef1b83-0494-410a-9506-510a1eedfbdc",
+      "exchangeRate": 1,
+      "invoiceLangId": "92e44249-3eed-4ab0-adf5-0cde86d3de46",
+      "netAmount": 54720,
+      "vatAmount": 12499.399999999994,
+      "totalAmount": 67219.4,
+      "toBePaid": 67210,
+      "rounding": 0,
+      "invoiceLines": [
+        "4797fda1-28b6-4d7c-b1e9-f61fc8a4b485",
+        "8701f4b1-588a-4ad1-aa43-7fbe8444f629"
+      ],
+      "notes": "",
+      "status": "draft",
       "messages": []
     }
   ],
@@ -56,6 +106,51 @@
       "netAmount": 1000,
       "total": 1270,
       "productId": "ab528c70-e3c2-446d-9fda-2a4066ac5e8d"
+    },
+    {
+      "id": "a1bbe41a-bb22-4a9c-aa14-795fe4e8aa14",
+      "label": "[ASZT-153518] Asztal, fekete, 120x100",
+      "quantity": 10,
+      "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
+      "unitPrice": 1000,
+      "taxesIds": [
+        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
+      ],
+      "taxAmount": 2700,
+      "netAmount": 10000,
+      "total": 12700,
+      "productId": "ab528c70-e3c2-446d-9fda-2a4066ac5e8d",
+      "invoiceId": "4023d5ba-f089-453e-9c84-1c640770389e"
+    },
+    {
+      "id": "4797fda1-28b6-4d7c-b1e9-f61fc8a4b485",
+      "label": "[SZK-ddfasdf] Szék, barna",
+      "quantity": 50,
+      "uomId": "fc91465d-40c5-455e-9306-c6d150d8df1d",
+      "unitPrice": 650,
+      "taxesIds": [
+        "5e3305af-4214-449c-a7e4-3d8ca2406a93"
+      ],
+      "taxAmount": 6500,
+      "netAmount": 32500,
+      "total": 39000,
+      "productId": "93c8f154-d02f-4ca6-ba6f-42eb613de40a",
+      "invoiceId": "5015926a-0984-4d9a-b88b-0cba083ffe20"
+    },
+    {
+      "id": "8701f4b1-588a-4ad1-aa43-7fbe8444f629",
+      "label": "[PROD-2] Product Two",
+      "quantity": 10,
+      "uomId": "190c6c66-0e1a-4f98-a114-6eb2c0393142",
+      "unitPrice": 2222,
+      "taxesIds": [
+        "01e7188b-553a-40b8-9e57-bd6d84ddf873"
+      ],
+      "taxAmount": 5999.4000000000015,
+      "netAmount": 22220,
+      "total": 28219.4,
+      "productId": "39063347-973b-448a-a844-ec47ce87c9fe",
+      "invoiceId": "5015926a-0984-4d9a-b88b-0cba083ffe20"
     }
   ],
   "partners": [
@@ -235,7 +330,6 @@
       "internalref": "ASZT-153518",
       "unitprice": 1000,
       "saletaxes": [
-        "01e7188b-553a-40b8-9e57-bd6d84ddf873",
         "01e7188b-553a-40b8-9e57-bd6d84ddf873"
       ],
       "purchasetaxes": [
