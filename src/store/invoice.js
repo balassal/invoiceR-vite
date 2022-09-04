@@ -38,6 +38,22 @@ export async function getInvoiceById(id) {
   };
 }
 
+export async function createDraftInvoice(values) {
+  values.invoiceLines.forEach(async (line) => {
+    const newLine = JSON.parse(JSON.stringify(line));
+    newLine.invoiceId = values.id;
+    newLine.productId = line.productId.id;
+    newLine.uomId = line.productId.uomId.id;
+    newLine.taxesIds = line.taxesIds.map((t) => t.id);
+    const res = await axios.post(`${apiURL}/invoicelines`, newLine);
+    if (res.status !== 201) return res;
+  });
+  const newInvoice = JSON.parse(JSON.stringify(values));
+  newInvoice.invoiceLines = values.invoiceLines.map((l) => l.id);
+  const res = await axios.post(`${apiURL}/invoices`, newInvoice);
+  return res;
+}
+
 function getNextNumber() {
   const invoices = getInvoices();
   const numbers = invoices.map((inv) => parseInt(inv.number.slice(-4)));
