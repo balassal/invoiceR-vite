@@ -5,14 +5,14 @@ const routes = [
     children: [
       { path: "", component: () => import("pages/Index.vue") },
       {
-        path: "/invoices",
+        path: "/invoice/list",
         name: "invoices",
         component: () => import("src/pages/invoice/Invoices.vue"),
       },
       {
         path: "/invoice/new",
         name: "createInvoice",
-        component: () => import("src/pages/invoice/Invoice.vue"),
+        component: () => import("src/pages/invoice/New.vue"),
       },
       {
         path: "/invoice/:id",
