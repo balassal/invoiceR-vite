@@ -9,8 +9,6 @@
         :readonly="!props.editable"
         :options="languages"
         v-model="selectedLang"
-        :rules="[(val) => !!val || 'Please select a Language']"
-        lazy-rules="ondemand"
       />
     </div>
   </div>
@@ -27,7 +25,7 @@ const props = defineProps({
     default: true,
   },
   language: {
-    type: Object,
+    type: [Object, null],
     required: true,
   },
 });
@@ -49,10 +47,4 @@ onMounted(async () => {
   languages.value = await getLanguages();
   selectedLang.value = languages.value.find((l) => l.shortCode == "hu");
 });
-
-const isValid = () => {
-  return langSelect.value.validate();
-};
-
-defineExpose({ isValid });
 </script>
