@@ -1,14 +1,23 @@
 <template>
-  <q-page padding>
+  <spinner v-if="loading"></spinner>
+  <q-page v-else padding>
     <div class="row q-pa-sm justify-between shadow-2 q-mb-sm">
       <div class="q-gutter-xs">
-        <q-btn color="primary" label="Back" to="list" icon="reply" />
+        <q-btn
+          color="primary"
+          label="Back"
+          icon="reply"
+          @click="router.push({ name: 'invoices' })"
+        />
         <q-btn color="orange" icon="save" label="Save" @click="onSave" />
       </div>
     </div>
     <div class="q-pa-sm shadow-2 q-mb-sm">
       <div class="row justify-between items-center">
-        <h4 class="q-px-sm q-py-none q-my-xs">Draft</h4>
+        <h5 class="q-px-sm q-py-none q-my-xs">{{ state.name }}</h5>
+        <q-badge color="blue">
+          {{ state.status }}
+        </q-badge>
       </div>
     </div>
     <div class="row q-gutter-xs">
@@ -222,8 +231,11 @@ import LanguageSelect from "../../components/LanguageSelect.vue";
 import DateInvoice from "src/components/DateInvoice.vue";
 import PaymentMethod from "src/components/PaymentMethod.vue";
 import InvoiceLines from "src/components/InvoiceLines.vue";
-import { createDraftInvoice } from "src/store/invoice";
+import { createDraftInvoice, getInvoiceById } from "src/store/invoice";
 import { useRoute, useRouter } from "vue-router";
+import Spinner from "src/components/Spinner.vue";
+
+const loading = ref(false);
 
 const router = useRouter();
 const route = useRoute();
@@ -243,6 +255,7 @@ const roundings = ["None", 0, 1, 5];
 
 const state = reactive({
   id: "",
+  name: "Draft",
   partnerId: null,
   invoiceBankId: null,
   paymentMode: "",
@@ -286,8 +299,17 @@ const addMessage = () => {
 };
 
 onMounted(async () => {
+  loading.value = true;
+  if (route.params.id && route.params.id !== "new") {
+    const invoice = await getInvoiceById(route.params.id);
+    console.log("invoice :>> ", invoice);
+    for (const property in invoice) {
+      state[property] = invoice[property];
+    }
+  }
   currencies.value = await getCurrencies();
   state.currencyId = currencies.value[0];
+  loading.value = false;
 });
 
 const onChangePartner = (newValue) => {
