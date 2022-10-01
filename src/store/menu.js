@@ -9,7 +9,7 @@ const mainMenu = [
     title: "Invoices",
     subtitle: "List of invoices",
     icon: "receipt",
-    route: "/invoice/list",
+    route: "/invoices",
   },
   {
     title: "Partners",
