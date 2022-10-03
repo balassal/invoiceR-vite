@@ -9,19 +9,19 @@ This is a hobby project, an invoicing application.
 ### Invoice
 
 - [x] List invoices
-- [-] Create invoice
+- [x] Create invoice
 - [x] Show invoice
-- [-] Modify invoice
+- [ ] Modify invoice
 
 ### Partner
 
-- [ ] List partners
-- [ ] CRUD partner
+- [x] List partners
+- [x] CRUD partner
 
 ### Product
 
-- [ ] List products
-- [ ] CRUD products
+- [x] List products
+- [x] CRUD products
 
 ### Settings
 
